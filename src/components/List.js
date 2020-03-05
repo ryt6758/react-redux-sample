@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-class Input extends Component {
+class List extends Component {
+
   render() {
+
+    const todos = this.props.todoList.map(todo => {
+      return (
+        <React.Fragment>
+          <div>{todo.title}</div>
+          <div>{todo.body}</div>
+        </React.Fragment>
+      )
+    })
     return (
-      <React.Fragment>
-        <div>
-        </div>
-      </React.Fragment>
+      <div>{todos}</div>
     )
   }
+
 }
 
-export default Input;
+const mapStateToProps = state => ({
+  todoList: state.todoList
+});
+
+
+
+export default connect(mapStateToProps, null)(List);

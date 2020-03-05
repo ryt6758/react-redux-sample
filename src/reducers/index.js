@@ -1,15 +1,25 @@
 import { CREATE } from '../actions';
 
 const initialState = {
-  todo: "",
+  id: 0,
+  todoList: []
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case CREATE:
-      console.log(action.payload.todo);
+      const stateId = state.id + 1;
+      const newTodoList =
+        state.todoList.concat(
+          {
+            id: stateId,
+            title: action.value.title,
+            body: action.value.body
+          }
+        )
       return {
-        title: action.payload.todo
+        id: stateId,
+        todoList: newTodoList
       }
     default:
       return state
