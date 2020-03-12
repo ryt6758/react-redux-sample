@@ -1,25 +1,37 @@
-import { CREATE } from '../actions';
+import { CREATE, DELETE, UPDATE } from '../actions';
 
 const initialState = {
-  id: 0,
-  todoList: []
+  todoList: {}
 }
+let todoKey = 0;
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case CREATE:
-      const stateId = state.id + 1;
-      const newTodoList =
-        state.todoList.concat(
-          {
-            id: stateId,
-            title: action.value.title,
-            body: action.value.body
-          }
-        )
+      todoKey++
+      const todoList = state.todoList
+      const newTodo = {
+        [todoKey]: {
+          id: todoKey,
+          title: action.value.title,
+          body: action.value.body,
+          complete: false
+        }
+      }
+      const newTodoList = {
+        ...todoList,
+        ...newTodo
+      }
       return {
-        id: stateId,
         todoList: newTodoList
+      }
+    case UPDATE:
+      return state
+    case DELETE:
+      delete state.todoList[action.postId]
+      const deletedTodoList = { ...state.todoList }
+      return {
+        todoList: deletedTodoList
       }
     default:
       return state
